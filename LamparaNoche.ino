@@ -21,6 +21,8 @@ const byte DORMIR = 2;
 const byte C_ROJO = 3;
 const byte C_VERDE = 4;
 const byte C_AZUL = 5;
+const byte C_BRILLO = 6;
+
 
 const byte ROJO = 5;
 const byte VERDE = 3;
@@ -30,7 +32,7 @@ const byte BOTON = A1;
 const byte NIVEL[5]={
   0,20,80,150,255};
 
-const byte TRANSICION_ESTADO[6][3]={
+const byte TRANSICION_ESTADO[7][3]={
   {
     PRENDIDO,DORMIR,APAGADO          }
   ,
@@ -47,7 +49,10 @@ const byte TRANSICION_ESTADO[6][3]={
     C_VERDE,PRENDIDO,C_AZUL          }
   ,
   {
-    C_AZUL,PRENDIDO,PRENDIDO          }
+    C_AZUL,PRENDIDO,C_BRILLO          }
+      ,
+  {
+    C_BRILLO,PRENDIDO,PRENDIDO          }
 };
 const long TIEMPO_DORMIR=2000000;
 const long TIEMPO_CONFIG=4000;
@@ -61,7 +66,7 @@ long timeEstado=0;
 
 // Setup a new OneButton on pin 5.
 OneButton button(A1, true);
-
+byte brillo=100;
 byte estado = APAGADO; // no action when starting
 byte accion=NINGUNA;
 byte nivelRojo=2;
@@ -97,9 +102,9 @@ void loop() {
 
   } 
   else if (estado == PRENDIDO) {
-    analogWrite(ROJO, NIVEL[nivelRojo]);
-    analogWrite(VERDE, NIVEL[nivelVerde]);
-    analogWrite(AZUL, NIVEL[nivelAzul]);
+    analogWrite(ROJO, NIVEL[nivelRojo]*brillo/100);
+    analogWrite(VERDE, NIVEL[nivelVerde]*brillo/100);
+    analogWrite(AZUL, NIVEL[nivelAzul]*brillo/100);
 
   } 
   else if (estado == DORMIR) {
@@ -125,7 +130,7 @@ void loop() {
 
     digitalWrite(VERDE, LOW);
     digitalWrite(AZUL, LOW);
-    analogWrite(ROJO, NIVEL[nivelRojo]);
+    analogWrite(ROJO, NIVEL[nivelRojo]*brillo/100);
 
     if (accion==CORTO){
       nivelRojo++;
@@ -139,7 +144,7 @@ void loop() {
 
     digitalWrite(ROJO, LOW);
     digitalWrite(AZUL, LOW);
-    analogWrite(VERDE, NIVEL[nivelVerde]);
+    analogWrite(VERDE, NIVEL[nivelVerde]*brillo/100);
     if (accion==CORTO){
       nivelVerde++;
       nivelVerde%=5;
@@ -149,10 +154,9 @@ void loop() {
   else if (estado == C_AZUL) {
     if (time-timeEstado>TIEMPO_CONFIG)
       estado=PRENDIDO;
-
     digitalWrite(ROJO, LOW);
     digitalWrite(VERDE, LOW);
-    analogWrite(AZUL, NIVEL[nivelAzul]); 
+    analogWrite(AZUL, NIVEL[nivelAzul*brillo/100]); 
     if (accion==CORTO){
       nivelAzul++;
       nivelAzul%=5;
@@ -160,7 +164,21 @@ void loop() {
     }
 
   }
+  else if (estado == C_BRILLO) {
+    if (time-timeEstado>TIEMPO_CONFIG)
+      estado=PRENDIDO;
 
+    analogWrite(ROJO, NIVEL[nivelRojo]*brillo/100);
+    analogWrite(VERDE, NIVEL[nivelVerde]*brillo/100);
+    analogWrite(AZUL, NIVEL[nivelAzul]*brillo/100); 
+    if (accion==CORTO){
+      brillo+=25;
+      if (brillo==125)
+        brillo=25;
+
+    }
+
+  }
   if (accion!=NINGUNA){
     estado=TRANSICION_ESTADO[estado][accion];
     timeEstado= millis();
