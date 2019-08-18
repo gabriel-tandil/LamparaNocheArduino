@@ -49,7 +49,7 @@ const byte TRANSICION_ESTADO[6][3]={
   {
     C_AZUL,PRENDIDO,PRENDIDO          }
 };
-const long TIEMPO_DORMIR=1000000;
+const long TIEMPO_DORMIR=2000000;
 const long TIEMPO_CONFIG=4000;
 const int PERIODO = 9000;
 const int DESPLAZAMIENTO1 = 3000;
@@ -89,7 +89,7 @@ void loop() {
 
   button.tick();
 
-
+  long time = millis();
   if (estado == APAGADO) {
     digitalWrite(ROJO, LOW);
     digitalWrite(VERDE, LOW);
@@ -103,9 +103,6 @@ void loop() {
 
   } 
   else if (estado == DORMIR) {
-
-    long time = millis();
-
     if (time-timeEstado>TIEMPO_DORMIR)
       estado=APAGADO;
 
@@ -123,7 +120,8 @@ void loop() {
 
   } 
   else if (estado == C_ROJO) {
-    //    indicarConfiguracion(ROJO,128);
+    if (time-timeEstado>TIEMPO_CONFIG)
+      estado=PRENDIDO;
 
     digitalWrite(VERDE, LOW);
     digitalWrite(AZUL, LOW);
@@ -132,24 +130,26 @@ void loop() {
     if (accion==CORTO){
       nivelRojo++;
       nivelRojo%=5;
-
-      //   indicarConfiguracion(ROJO,64*nivelRojo);
     }
 
   } 
   else if (estado == C_VERDE) {
+    if (time-timeEstado>TIEMPO_CONFIG)
+      estado=PRENDIDO;
+
     digitalWrite(ROJO, LOW);
     digitalWrite(AZUL, LOW);
     analogWrite(VERDE, NIVEL[nivelVerde]);
     if (accion==CORTO){
       nivelVerde++;
       nivelVerde%=5;
-      //  indicarConfiguracion(VERDE,255/4*nivelVerde);
     }
-
 
   } 
   else if (estado == C_AZUL) {
+    if (time-timeEstado>TIEMPO_CONFIG)
+      estado=PRENDIDO;
+
     digitalWrite(ROJO, LOW);
     digitalWrite(VERDE, LOW);
     analogWrite(AZUL, NIVEL[nivelAzul]); 
@@ -158,7 +158,6 @@ void loop() {
       nivelAzul%=5;
 
     }
-
 
   }
 
