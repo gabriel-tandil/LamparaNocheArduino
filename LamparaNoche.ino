@@ -50,9 +50,10 @@ const byte TRANSICION_ESTADO[6][3]={
     C_AZUL,PRENDIDO,PRENDIDO          }
 };
 const long TIEMPO_DORMIR=1000000;
-const int PERIODO = 6000;
-const int DESPLAZAMIENTO1 = 2000;
-const int DESPLAZAMIENTO2 = 4000;
+const long TIEMPO_CONFIG=4000;
+const int PERIODO = 9000;
+const int DESPLAZAMIENTO1 = 3000;
+const int DESPLAZAMIENTO2 = 6000;
 const byte B_DORMIR=10;
 
 // light connected to digital pin 11
