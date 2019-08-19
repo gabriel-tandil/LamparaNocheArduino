@@ -156,7 +156,7 @@ void loop() {
       estado=PRENDIDO;
     digitalWrite(ROJO, LOW);
     digitalWrite(VERDE, LOW);
-    analogWrite(AZUL, NIVEL[nivelAzul*brillo/100]); 
+    analogWrite(AZUL, NIVEL[nivelAzul]*brillo/100); 
     if (accion==CORTO){
       nivelAzul++;
       nivelAzul%=5;
