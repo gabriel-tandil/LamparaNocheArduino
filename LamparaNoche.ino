@@ -22,6 +22,10 @@ const byte C_ROJO = 3;
 const byte C_VERDE = 4;
 const byte C_AZUL = 5;
 const byte C_BRILLO = 6;
+const byte C_BRILLO_DORMIR= 7;
+const byte C_PERIODO_DORMIR = 8;
+
+
 
 
 const byte ROJO = 5;
@@ -40,7 +44,7 @@ const byte TRANSICION_ESTADO[7][3]={
     APAGADO,DORMIR,C_ROJO          }
   ,
   {
-    APAGADO,PRENDIDO,C_ROJO          }
+    APAGADO,PRENDIDO,C_BRILLO_DORMIR   }
   ,
   {
     C_ROJO,PRENDIDO,C_VERDE          }
@@ -53,13 +57,21 @@ const byte TRANSICION_ESTADO[7][3]={
       ,
   {
     C_BRILLO,PRENDIDO,PRENDIDO          }
+
+      ,
+  {
+    C_BRILLO_DORMIR,DORMIR,C_PERIODO_DORMIR          }
+      ,
+  {
+    C_PERIODO_DORMIR,DORMIR,DORMIR          }
+
+
 };
 const long TIEMPO_DORMIR=2000000;
 const long TIEMPO_CONFIG=4000;
-const int PERIODO = 9000;
-const int DESPLAZAMIENTO1 = 3000;
-const int DESPLAZAMIENTO2 = 6000;
-const byte B_DORMIR=10;
+int periodoDormir = 9000;
+byte brilloDormir=8;
+
 
 // light connected to digital pin 11
 long timeEstado=0;
@@ -111,17 +123,7 @@ void loop() {
     if (time-timeEstado>TIEMPO_DORMIR)
       estado=APAGADO;
 
-    byte valueR = B_DORMIR+B_DORMIR*cos(2*PI/PERIODO*time);
-    byte valueG = B_DORMIR+B_DORMIR*cos(2*PI/PERIODO*(DESPLAZAMIENTO1-time));
-    byte valueB = B_DORMIR+B_DORMIR*cos(2*PI/PERIODO*(DESPLAZAMIENTO2-time));
-    analogWrite(ROJO, valueR);           
-    analogWrite(VERDE, valueG);           
-    analogWrite(AZUL, valueB);           
-      // Serial.print(valueR);
-     //  Serial.print(" ");
-      // Serial.print(valueG);
-     //  Serial.print(" ");
-     //  Serial.println(valueB);
+    iluminarDormir(time);
 
   } 
   else if (estado == C_ROJO) {
@@ -179,6 +181,36 @@ void loop() {
     }
 
   }
+  else if (estado == C_BRILLO_DORMIR) {
+    if (time-timeEstado>TIEMPO_CONFIG)
+      estado=DORMIR;
+  
+    if (accion==CORTO){
+      brilloDormir*=4;
+      if (brillo>128)
+        brilloDormir=4;
+
+    }
+
+    iluminarDormir(time);
+
+  } 
+  else if (estado == C_PERIODO_DORMIR) {
+    if (time-timeEstado>TIEMPO_CONFIG)
+      estado=DORMIR;
+
+    if (accion==CORTO){
+      periodoDormir+=3000;
+      if (periodoDormir==18000)
+        periodoDormir=3000;
+
+    }
+
+    iluminarDormir(time);
+
+  } 
+  
+  
   if (accion!=NINGUNA){
     estado=TRANSICION_ESTADO[estado][accion];
     timeEstado= millis();
@@ -193,6 +225,19 @@ void loop() {
   delay(10);
 }
 
+void iluminarDormir(long time){
+    byte valueR = brilloDormir+brilloDormir*cos(2*PI/periodoDormir*time);
+    byte valueG = brilloDormir+brilloDormir*cos(2*PI/periodoDormir*(periodoDormir/3-time));
+    byte valueB = brilloDormir+brilloDormir*cos(2*PI/periodoDormir*(periodoDormir/3*2-time));
+    analogWrite(ROJO, valueR);           
+    analogWrite(VERDE, valueG);           
+    analogWrite(AZUL, valueB);           
+      // Serial.print(valueR);
+     //  Serial.print(" ");
+      // Serial.print(valueG);
+     //  Serial.print(" ");
+     //  Serial.println(valueB);
+}
 
 void indicarConfiguracion(byte color,byte brillo){
   digitalWrite(ROJO, LOW);
