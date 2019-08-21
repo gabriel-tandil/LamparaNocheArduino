@@ -36,7 +36,7 @@ const byte BOTON = A1;
 const byte NIVEL[5]={
   0,20,80,150,255};
 
-const byte TRANSICION_ESTADO[7][3]={
+const byte TRANSICION_ESTADO[9][3]={
   {
     PRENDIDO,DORMIR,APAGADO          }
   ,
@@ -57,7 +57,6 @@ const byte TRANSICION_ESTADO[7][3]={
       ,
   {
     C_BRILLO,PRENDIDO,PRENDIDO          }
-
       ,
   {
     C_BRILLO_DORMIR,DORMIR,C_PERIODO_DORMIR          }
@@ -70,7 +69,7 @@ const byte TRANSICION_ESTADO[7][3]={
 const long TIEMPO_DORMIR=2000000;
 const long TIEMPO_CONFIG=4000;
 int periodoDormir = 9000;
-byte brilloDormir=8;
+int brilloDormir=4;
 
 
 // light connected to digital pin 11
@@ -87,7 +86,7 @@ byte nivelAzul=2;
 
 // setup code here, to run once.
 void setup() {
- //  Serial.begin(9600);
+   Serial.begin(9600);
 
   // enable the standard led on pin 13.
   pinMode(ROJO, OUTPUT); // rojo
@@ -187,7 +186,7 @@ void loop() {
   
     if (accion==CORTO){
       brilloDormir*=4;
-      if (brillo>128)
+      if (brilloDormir>128)
         brilloDormir=4;
 
     }
@@ -232,11 +231,11 @@ void iluminarDormir(long time){
     analogWrite(ROJO, valueR);           
     analogWrite(VERDE, valueG);           
     analogWrite(AZUL, valueB);           
-      // Serial.print(valueR);
-     //  Serial.print(" ");
-      // Serial.print(valueG);
-     //  Serial.print(" ");
-     //  Serial.println(valueB);
+       Serial.print(valueR);
+       Serial.print(" ");
+       Serial.print(valueG);
+       Serial.print(" ");
+       Serial.println(valueB);
 }
 
 void indicarConfiguracion(byte color,byte brillo){
