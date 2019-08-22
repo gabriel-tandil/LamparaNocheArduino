@@ -7,8 +7,8 @@ Los ledes se deben conectar a pines PWM del arduino.
 
 ## Matriz de transicion de Estados
 
-|Estado / Evento         |Pulsacion corta     |Pulsacion doble     |Pulsacion larga|Tiempo            |
-|------------------------|--------------------|--------------------|---------------|------------------|
+|Estado / Evento         |Pulsación corta     |Pulsación doble     |Pulsación larga|Reloj             |
+|         :---:          |--------------------|--------------------|---------------|------------------|
 |**Apagado**             |Prendido            |Apagado             |Dormir         |                  |
 |**Prendido**            |Apagado             |Conf. Rojo          |Dormir         |                  |
 |**Conf. Rojo**          |Conf. Rojo          |Conf. Verde         |Prendido       |Prendido (4 seg.) |
