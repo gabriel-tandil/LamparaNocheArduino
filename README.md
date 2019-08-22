@@ -9,12 +9,12 @@ Los ledes se deben conectar a pines PWM del arduino.
 
 |Estado / Evento         |Pulsacion corta     |Pulsacion doble     |Pulsacion larga|Tiempo            |
 |------------------------|--------------------|--------------------|---------------|------------------|
-|**Apagado**             |Prendido            |Nada                |Dormir         |                  |
+|**Apagado**             |Prendido            |Apagado             |Dormir         |                  |
 |**Prendido**            |Apagado             |Conf. Rojo          |Dormir         |                  |
 |**Conf. Rojo**          |Conf. Rojo          |Conf. Verde         |Prendido       |Prendido (4 seg.) |
 |**Conf. Verde**         |Conf. Verde         |Conf. Azul          |Prendido       |Prendido (4 seg.) |
 |**Conf. Azul**          |Conf. Azul          |Conf. Brillo        |Prendido       |Prendido (4 seg.) |
-|**Conf. Brillo**        |Prendido            |Nada                |Prendido       |Prendido (4 seg.) |
+|**Conf. Brillo**        |Conf. Brillo        |Prendido            |Prendido       |Prendido (4 seg.) |
 |**Dormir**              |Apagado             |Conf. Brillo Dormir |Prendido       |Apagado  (20 min.)|
 |**Conf. Brillo Dormir** |Conf. Brillo Dormir |Conf. Periodo Dormir|Dormir         |Dormir   (4 seg.) |
-|**Conf. Periodo Dormir**|Conf. Periodo Dormir|Nada                |Dormir         |Dormir   (4 seg.) |
+|**Conf. Periodo Dormir**|Conf. Periodo Dormir|Dormir              |Dormir         |Dormir   (4 seg.) |
