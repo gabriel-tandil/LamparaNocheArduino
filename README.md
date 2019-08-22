@@ -6,7 +6,7 @@ Usa la biblioteca OneButtonLibrary de Matthias Hertel http://www.mathertel.de
 ## Nota
 Los ledes se deben conectar a pines PWM del arduino.
 
-## Matriz de transicion de Estados
+## Matriz de transición de Estados
 
 |Estado / Evento         |Pulsación corta     |Pulsación doble     |Pulsación larga|Reloj :alarm_clock:|
 |         :---:          |--------------------|--------------------|---------------|-------------------|
@@ -21,7 +21,7 @@ Los ledes se deben conectar a pines PWM del arduino.
 |**Conf. Periodo Dormir**|Conf. Periodo Dormir|Dormir              |Dormir         |Dormir   (4 seg.)  |
 
 ## Constantes
-Todos los valores son parametrizables mediante constantes
+Todos los valores son parametrizables mediante constantes:
 
 ```c
 const byte ROJO = 5;  // Pata led rojo
