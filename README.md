@@ -16,7 +16,7 @@ Los ledes se deben conectar a pines PWM del arduino.
 |**Conf. Verde**         |Conf. Verde         |Conf. Azul          |Prendido       |Prendido (4 seg.)  |
 |**Conf. Azul**          |Conf. Azul          |Conf. Brillo        |Prendido       |Prendido (4 seg.)  |
 |**Conf. Brillo**        |Conf. Brillo        |Prendido            |Prendido       |Prendido (4 seg.)  |
-|**Dormir**              |Apagado             |Conf. Brillo Dormir |Prendido       |Apagado  (20 min.) |
+|**Dormir**              |Apagado             |Conf. Brillo Dormir |Prendido       |Apagado  (33 min.) |
 |**Conf. Brillo Dormir** |Conf. Brillo Dormir |Conf. Periodo Dormir|Dormir         |Dormir   (4 seg.)  |
 |**Conf. Periodo Dormir**|Conf. Periodo Dormir|Dormir              |Dormir         |Dormir   (4 seg.)  |
 
@@ -30,6 +30,6 @@ const byte AZUL = 6;  // Pata led azul
 
 const byte BOTON = A1;// Pata boton pulsador
 
-const long TIEMPO_DORMIR=2000000;
+const long TIEMPO_DORMIR=2000000; // 33 minutos
 const long TIEMPO_CONFIG=4000;
 ```
